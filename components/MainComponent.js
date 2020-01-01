@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import Menu from "./MenuComponent";
 import { View, Platform } from "react-native";
-import { createStackNavigator } from "react-navigation";
+import { createStackNavigator, createDrawerNavigator } from "react-navigation";
 
-import { DISHES } from "../shared/dishes";
 import Dishdetail from "./DishdetailComponent";
+import Home from "./HomeComponent";
 
 const MenuNavigator = createStackNavigator(
   {
@@ -25,6 +25,45 @@ const MenuNavigator = createStackNavigator(
   }
 );
 
+const HomeNavigator = createStackNavigator(
+  {
+    Home: { screen: Home }
+  },
+  {
+    navigationOptions: {
+      headerStyle: {
+        backgroundColor: "#512da8"
+      },
+      headerTintColor: "#fff",
+      headerTitleStyle: {
+        color: "#fff"
+      }
+    }
+  }
+);
+
+const MainNavigator = createDrawerNavigator(
+  {
+    Home: {
+      screen: HomeNavigator,
+      navigationOptions: {
+        tile: "Home",
+        drawerLabel: "Home"
+      }
+    },
+    Menu: {
+      screen: MenuNavigator,
+      navigationOptions: {
+        tile: "Menu",
+        drawerLabel: "Menu"
+      }
+    }
+  },
+  {
+    drawerBackgroundColor: "#d1c4e9"
+  }
+);
+
 class Main extends Component {
   render() {
     return (
@@ -34,7 +73,7 @@ class Main extends Component {
           paddingTop: Platform.OS === "ios" ? 0 : Expo.Constants.statusBarHeight
         }}
       >
-        <MenuNavigator />
+        <MainNavigator />
       </View>
     );
   }
